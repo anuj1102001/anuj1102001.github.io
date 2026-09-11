@@ -122,3 +122,22 @@ async function loadData(){
  }catch(error){chartStatus.textContent='The dataset could not load. ';const retry=document.createElement('button');retry.type='button';retry.textContent='Try again';retry.addEventListener('click',loadData);chartStatus.append(retry);$('#readout-detail').textContent='Please retry to explore the data.';}
 }
 loadData();
+// Artwork links remain usable as full-size image links without JavaScript.
+const artViewer = $('#art-viewer');
+if (artViewer && typeof artViewer.showModal === 'function') {
+  let artTrigger;
+  $$('.art-card').forEach(link => link.addEventListener('click', event => {
+    if(event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)return;
+    event.preventDefault(); artTrigger=link;
+    $('#art-viewer-title').textContent=link.dataset.artTitle;
+    $('#art-viewer-image').src=link.href;
+    $('#art-viewer-image').alt=link.querySelector('img').alt;
+    artViewer.showModal();
+  }));
+  $('#close-art').addEventListener('click',()=>artViewer.close());
+  artViewer.addEventListener('click',event=>{
+    const rect=artViewer.getBoundingClientRect();
+    if(event.target===artViewer && (event.clientX<rect.left || event.clientX>rect.right || event.clientY<rect.top || event.clientY>rect.bottom))artViewer.close();
+  });
+  artViewer.addEventListener('close',()=>artTrigger?.focus({preventScroll:true}));
+}
