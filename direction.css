@@ -18,3 +18,24 @@ html{scroll-padding-top:115px}
 @media(max-width:600px){.site-header.wrap{display:flex;flex-wrap:nowrap;gap:14px;padding:10px 14px;min-height:56px;top:14px;border-radius:40px}.site-header .wordmark{display:none}.site-header nav{gap:15px;grid-column:auto;grid-row:auto}.site-header nav a{font-size:12px}.site-header .header-actions{gap:7px;grid-column:auto;grid-row:auto}.site-header .header-resume{display:none}.hero.wrap{padding:125px 20px 25px;min-height:680px;min-height:92svh;justify-content:center}.hero-kicker{justify-content:center;margin-bottom:40px}.hero .eyebrow{font-size:10px}.hero .edition{display:none}.hero h1{font-size:29vw;letter-spacing:-.045em}.hero-bottom{margin-top:36px;gap:27px;align-items:center}.hero-bottom>p{max-width:100%;font-size:30px}.hero-links{gap:9px}.hero-links a{padding:15px 19px;font-size:12px;gap:14px}.hero-footnote{margin-top:56px;gap:15px;font-size:10px;justify-content:center;text-align:center}.hero-footnote>span:nth-child(2){display:none}.hero-footnote>a{width:100%;padding-top:10px}.signal-intro{display:block}.signal-intro>p{font-size:22px;margin-top:12px}.data-studio{border-radius:18px;padding:24px 17px}.studio-top h2{font-size:25px}.section-heading h2,.about-top h2{font-size:43px;letter-spacing:-1.5px}.work-section{padding-top:65px}.project{padding:24px 18px;gap:15px 9px;border-radius:18px;grid-template-columns:20px minmax(0,1fr)}.project-main h3{font-size:29px}.project-main>p{font-size:15px}.project-overline{font-size:10px;line-height:1.7}.project-stat{grid-column:1/-1;border-radius:12px;margin-top:10px}.project-stat>strong{font-size:75px}.project-stat>div{font-size:12px}.case-detail p{font-size:14px}.about-section{padding-block:60px;margin-top:20px}.about-copy p{font-size:16px}.role-head h3{font-size:20px}.role>p{font-size:15px}.knowledge-grid{grid-template-columns:1fr;gap:30px}.knowledge-grid>div:first-child{grid-column:auto}.contact-section{padding-top:65px}.contact-section h2{font-size:57px}.contact-arrow{display:none}.contact-email{gap:17px}.contact-email>a{font-size:24px}}
 @media(prefers-reduced-motion:reduce){.hero h1,.hero.enter{animation:none}}
 @media print{body{background:white}.site-header.wrap{display:none}.hero.wrap{min-height:0;background:white;color:#202024;padding:20px;width:100%}.hero h1{font-size:75px;color:#202024;animation:none}.hero-bottom,.hero-footnote,.hero-kicker{display:none}.project{border-color:#ddd}.about-section{padding:20px 0}}
+/* A complete light appearance for the opening and its floating navigation. */
+@media screen{
+:root:not([data-theme=dark]) .hero.wrap{background-color:#f5f5f2;background-image:linear-gradient(#22202c08 1px,transparent 1px),linear-gradient(90deg,#22202c08 1px,transparent 1px);color:#26272a}
+:root:not([data-theme=dark]) .hero h1{color:#245943}
+:root:not([data-theme=dark]) .hero-period{color:#7955aa}
+:root:not([data-theme=dark]) .hero .eyebrow,:root:not([data-theme=dark]) .hero .edition{color:#60606b}
+:root:not([data-theme=dark]) .hero-bottom>p{color:#33313c}
+:root:not([data-theme=dark]) .hero-bottom>p em{color:#67616e}
+:root:not([data-theme=dark]) .hero-primary{background:#dfd0f5;color:#30233f}
+:root:not([data-theme=dark]) .hero-secondary{background:#ffffff88;border-color:#c8c3cf;color:#39323f}
+:root:not([data-theme=dark]) .hero-links a:hover{background:#c5e7d5;color:#193d2e}
+:root:not([data-theme=dark]) .hero-footnote{border-color:#d7d4dc;color:#65606d}
+:root:not([data-theme=dark]) .hero-footnote strong{color:#704b9c}
+:root:not([data-theme=dark]) .hero-footnote>a{color:#245943}
+:root:not([data-theme=dark]) .hero :focus-visible{outline-color:#704b9c}
+:root:not([data-theme=dark]) .site-header.wrap{background:#fafaf5ed;border-color:#d9d5df;color:#29262f;box-shadow:0 8px 35px #2520300c}
+:root:not([data-theme=dark]) .site-header nav a{color:#5f5869}
+:root:not([data-theme=dark]) .site-header nav a:hover,:root:not([data-theme=dark]) .site-header .wordmark span,:root:not([data-theme=dark]) .site-header .header-resume span{color:#245943}
+:root:not([data-theme=dark]) .site-header .theme-toggle,:root:not([data-theme=dark]) .site-header .motion-toggle{border-color:#cec8d6;color:#5e536c}
+:root:not([data-theme=dark]) .site-header :focus-visible{outline-color:#704b9c}
+}
