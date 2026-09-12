@@ -132,7 +132,9 @@ if (artViewer && typeof artViewer.showModal === 'function') {
     $('#art-viewer-title').textContent=link.dataset.artTitle;
     $('#art-viewer-image').src=link.href;
     $('#art-viewer-image').alt=link.querySelector('img').alt;
+    $('#viewer-crop').dataset.crop=link.dataset.crop;
     artViewer.showModal();
+    fitArtwork($('#viewer-crop'));
   }));
   $('#close-art').addEventListener('click',()=>artViewer.close());
   artViewer.addEventListener('click',event=>{
@@ -141,3 +143,16 @@ if (artViewer && typeof artViewer.showModal === 'function') {
   });
   artViewer.addEventListener('close',()=>artTrigger?.focus({preventScroll:true}));
 }
+
+// Fit each photographed canvas into its frame with a perspective crop.
+function fitArtwork(box){
+ const img=box.querySelector('img');
+ if(!img?.naturalWidth||!box.dataset.crop||!box.clientWidth)return;
+ const p=box.dataset.crop.split(',').map(Number),w=box.clientWidth,h=box.clientHeight;
+ const a=[],b=[];
+ for(let i=0;i<4;i++){const x=p[i*2]*img.naturalWidth,y=p[i*2+1]*img.naturalHeight,u=[0,w,w,0][i],v=[0,0,h,h][i];a.push([x,y,1,0,0,0,-u*x,-u*y],[0,0,0,x,y,1,-v*x,-v*y]);b.push(u,v);}
+ for(let i=0;i<8;i++){let pivot=i;for(let j=i+1;j<8;j++)if(Math.abs(a[j][i])>Math.abs(a[pivot][i]))pivot=j;[a[i],a[pivot]]=[a[pivot],a[i]];[b[i],b[pivot]]=[b[pivot],b[i]];const d=a[i][i];if(Math.abs(d)<1e-10)return;for(let k=i;k<8;k++)a[i][k]/=d;b[i]/=d;for(let j=0;j<8;j++)if(j!==i){const f=a[j][i];for(let k=i;k<8;k++)a[j][k]-=f*a[i][k];b[j]-=f*b[i];}}
+ const matrix=`matrix3d(${b[0]},${b[3]},0,${b[6]},${b[1]},${b[4]},0,${b[7]},0,0,1,0,${b[2]},${b[5]},0,1)`;
+ img.style.width=img.naturalWidth+'px';img.style.height=img.naturalHeight+'px';img.style.transform=matrix;img.style.setProperty('--crop-transform',matrix);box.classList.add('is-fitted');
+}
+$$('.art-crop').forEach(box=>{box.querySelector('img').addEventListener('load',()=>fitArtwork(box));if('ResizeObserver' in window)new ResizeObserver(()=>fitArtwork(box)).observe(box);fitArtwork(box);});
