@@ -107,7 +107,7 @@ export default function Triad() {
     { scope: root },
   );
   return (
-    <section ref={root} aria-labelledby="triad-h" className="relative px-5 py-24 sm:px-8 md:py-32">
+    <section ref={root} aria-labelledby="triad-h" data-tint="#ff6a1f,#6d3bd1,#e9b949" className="relative px-5 py-24 sm:px-8 md:py-32">
       <div className="mx-auto max-w-[1400px]">
         <p className="mono text-[11px] uppercase tracking-[0.2em] text-ember-300">Three things, in one person</p>
         <h2 id="triad-h" className="tr-head display mt-3 flex flex-wrap gap-x-[0.3em] overflow-hidden text-[clamp(36px,5.4vw,84px)] font-semibold leading-[0.95] tracking-[-0.05em]">

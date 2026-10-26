@@ -157,7 +157,7 @@ export default function Hero() {
   );
 
   return (
-    <section id="top" ref={root} className="relative h-[100svh] min-h-[640px] overflow-hidden" aria-label="Introduction">
+    <section id="top" ref={root} data-tint="#ff6a1f,#7a2e12,#e9b949" className="relative h-[100svh] min-h-[640px] overflow-hidden" aria-label="Introduction">
       {/* Ember glow behind the portrait */}
       <div className="h-glow pointer-events-none absolute left-1/2 top-[58%] h-[110vmin] w-[110vmin] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-90 [background:radial-gradient(circle_at_50%_45%,rgba(255,106,31,.95)_0%,rgba(228,82,12,.75)_22%,rgba(120,30,8,.45)_45%,rgba(60,14,4,.15)_60%,transparent_70%)] [:root[data-mode=pixel]_&]:[background:repeating-conic-gradient(#ff6a1f_0_25%,#e4520c_0_50%)_0_0/24px_24px] [:root[data-mode=pixel]_&]:opacity-25" />
       <div className="dot-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />

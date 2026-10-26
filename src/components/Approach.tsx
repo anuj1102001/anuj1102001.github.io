@@ -68,7 +68,7 @@ export default function Approach() {
   );
 
   return (
-    <section id="approach" ref={root} className="relative px-5 py-24 sm:px-8 md:py-36">
+    <section id="approach" ref={root} data-tint="#e9b949,#ff8a3d,#7c8cff" className="relative px-5 py-24 sm:px-8 md:py-36">
       <div className="mx-auto max-w-[1200px]">
         <p className="mono text-[11px] uppercase tracking-[0.2em] text-ember-300">Approach</p>
         <h2 className="display mt-3 max-w-[900px] text-[clamp(34px,4.6vw,68px)] font-semibold leading-[0.95] tracking-[-0.045em]">

@@ -186,7 +186,7 @@ export default function Experience() {
   );
 
   return (
-    <section id="experience" ref={root} className="relative px-5 py-24 sm:px-8 md:py-36">
+    <section id="experience" ref={root} data-tint="#ff6a1f,#c6ff3d,#7c8cff" className="relative px-5 py-24 sm:px-8 md:py-36">
       <div className="mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
         <div className="lg:sticky lg:top-24 lg:self-start">
           <p className="mono text-[11px] uppercase tracking-[0.2em] text-ember-300">Experience</p>

@@ -19,7 +19,7 @@ export default function About() {
   );
 
   return (
-    <section id="about" ref={root} className="relative px-5 py-24 sm:px-8 md:py-36">
+    <section id="about" ref={root} data-tint="#c98247,#e9b949,#ff6a1f" className="relative px-5 py-24 sm:px-8 md:py-36">
       <div className="mx-auto grid max-w-[1300px] gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <div className="lg:sticky lg:top-24 lg:self-start">
           <div className="ab-photo relative overflow-hidden" style={{ borderRadius: "var(--radius)" }}>

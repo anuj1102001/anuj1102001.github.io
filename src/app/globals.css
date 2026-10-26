@@ -67,7 +67,7 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background: transparent;
   color: var(--fg);
   font-family: var(--ui-font);
   -webkit-font-smoothing: antialiased;
@@ -334,4 +334,63 @@ body {
   100% {
     stroke-dashoffset: 0;
   }
+}
+
+/* Ambient light behind the page (see Ambient.tsx). Body is transparent so it shows through. */
+.ambient-blob {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform;
+}
+.ambient-a {
+  left: -15vw;
+  top: 5vh;
+  width: 75vw;
+  height: 75vw;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--c1) 34%, transparent), transparent);
+  animation: amb-a 26s ease-in-out infinite alternate;
+}
+.ambient-b {
+  right: -20vw;
+  top: 35vh;
+  width: 70vw;
+  height: 70vw;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--c2) 38%, transparent), transparent);
+  animation: amb-b 32s ease-in-out infinite alternate;
+}
+.ambient-c {
+  left: 25vw;
+  bottom: -25vh;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--c3) 26%, transparent), transparent);
+  animation: amb-c 38s ease-in-out infinite alternate;
+}
+@keyframes amb-a {
+  to {
+    transform: translate(12vw, 10vh) scale(1.1);
+  }
+}
+@keyframes amb-b {
+  to {
+    transform: translate(-14vw, -8vh) scale(0.92);
+  }
+}
+@keyframes amb-c {
+  to {
+    transform: translate(-10vw, -14vh) scale(1.12);
+  }
+}
+@media (max-width: 767px) {
+  .ambient-a,
+  .ambient-b,
+  .ambient-c {
+    width: 120vw;
+    height: 120vw;
+  }
+}
+/* Pixel mode: the same light, in hard steps. */
+:root[data-mode="pixel"] .ambient-blob {
+  border-radius: 0;
+  animation-timing-function: steps(8);
 }

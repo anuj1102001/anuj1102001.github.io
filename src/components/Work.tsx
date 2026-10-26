@@ -189,7 +189,7 @@ export default function Work() {
   const products = PROJECTS.filter((p) => !p.lab);
   const lab = PROJECTS.filter((p) => p.lab);
   return (
-    <section id="work" ref={root} className="relative px-5 py-24 sm:px-8 md:py-36">
+    <section id="work" ref={root} data-tint="#7c8cff,#3ddc97,#ff6a1f" className="relative px-5 py-24 sm:px-8 md:py-36">
       <div className="mx-auto max-w-[1400px]">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>

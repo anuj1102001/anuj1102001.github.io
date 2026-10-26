@@ -16,6 +16,7 @@ export type Case = {
   title: string;
   tagline: string;
   intro: string;
+  tldr: { problem: string; role: string; outcome: string };
   meta: { role: string; type: string; stack: string; status: string };
   links: { label: string; href: string }[];
   problem: Claim[];
@@ -38,6 +39,7 @@ export const CASES: Record<string, Case> = {
     tagline: "Show your real experience, clearly.",
     intro:
       "A resume assistant that judges a resume against a job ad requirement by requirement, quotes the resume as evidence for every verdict, and suggests rewrites that are checked for invented facts.",
+    tldr: { problem: "Resume tools hand out a mysterious score and rewrite bullets with numbers you never achieved.", role: "Product direction, UX and UI, design system and evaluation design. Built with Claude Code under my direction.", outcome: "Live. Matching accuracy went from 0.22 to 0.91 on 74 labelled requirements, with no missing requirement marked as met." },
     meta: {
       role: "Product direction, UX and interface, design system, evaluation design",
       type: "AI product · rebuild of my own v1",
@@ -127,6 +129,7 @@ export const CASES: Record<string, Case> = {
     tagline: "A document assistant you can check.",
     intro:
       "Upload a contract, paper, policy or report. Margin summarises it, answers questions, pulls out key facts and compares documents, and every claim comes with a quote that is verified and highlighted on the real page in one click.",
+    tldr: { problem: "AI summaries of contracts and reports sound confident, but you can’t tell which parts are true.", role: "Product direction, UX and UI, retrieval and evaluation design. Built with Claude Code under my direction.", outcome: "Live. 46 of 47 answers correct, 6 of 7 unanswerable questions refused, and every cited quote verified." },
     meta: {
       role: "Product direction, UX and interface, retrieval and evaluation design",
       type: "AI product · rebuild of my own v1",
@@ -208,6 +211,7 @@ export const CASES: Record<string, Case> = {
     tagline: "Every lead followed up. Every client kept.",
     intro:
       "An interactive product prototype for fitness influencers and creators who coach their followers. A Today queue says who to message and why, sequences pause when someone replies, and every AI draft explains its reasoning. The creator always presses send.",
+    tldr: { problem: "Fitness creators lose interested leads and slipping clients in their DMs and spreadsheets.", role: "Problem and users, product definition, UX and UI, a Figma design system and motion.", outcome: "A live interactive prototype: nine working screens, a Figma file and a narrated walkthrough. No user research yet." },
     meta: {
       role: "Problem and users, product definition, UX/UI, design system, motion",
       type: "Product prototype · sample data, simulated AI",
@@ -265,6 +269,7 @@ export const CASES: Record<string, Case> = {
     tagline: "Keep every rupee.",
     intro:
       "A store, UPI checkout and instant delivery in one bio link for Indian creators in every niche. Buyers pay straight into the creator's own Razorpay account, so the platform takes 0% commission and never holds the money.",
+    tldr: { problem: "Creators who sell on Instagram check UPI screenshots by hand and lose a cut of every sale.", role: "Product, UX and UI, the payments flow and the full stack.", outcome: "Live on its own domain with 0% commission and 33 automated payment tests. Early stage: no paying customers yet." },
     meta: {
       role: "Product, UX and interface, payments flow, full stack",
       type: "Live product · early stage",
@@ -333,6 +338,7 @@ export const CASES: Record<string, Case> = {
     tagline: "Mumbai in Motion.",
     intro:
       "An original sneaker concept told through everyday Mumbai (local trains, the CSMT terminus, vintage postcards, street lettering), carried from the shoe to the box, the campaign and a scroll-driven launch site.",
+    tldr: { problem: "City-themed products tend to become souvenirs: every landmark at once, flattened into a collage.", role: "Concept, art direction, packaging, motion and the launch site.", outcome: "Three editions, poster-box packaging, a campaign and a scroll-driven launch site, live." },
     meta: { role: "Concept, art direction, packaging, motion, launch site", type: "Brand concept · fictional label", stack: "AI image tools (art-directed), Next.js, Lenis", status: "Live launch site" },
     links: [
       { label: "Launch site", href: "https://comet-mumbai.vercel.app" },
@@ -361,6 +367,7 @@ export const CASES: Record<string, Case> = {
     tagline: "Two coffees, one for each half of the day.",
     intro:
       "A coffee brand concept presented as an interactive publication: a liquid-coffee opening you can stir with the cursor, a 3D pour bar that builds a serve, and photoreal bottles path-traced from the site's own 3D models.",
+    tldr: { problem: "Brand concepts usually stop at moodboards and flat mockups.", role: "Concept, art direction, WebGL, motion and sound.", outcome: "A live interactive publication with path-traced bottles; a speed pass cut blocking time from 5,435 ms to 537 ms." },
     meta: { role: "Concept, art direction, WebGL, motion, sound", type: "Brand concept · interactive publication", stack: "Raw WebGL2 / GLSL, Three.js, path tracing, GSAP", status: "Live site" },
     links: [{ label: "Live site", href: "https://solune-afterdark.vercel.app" }],
     problem: [{ text: "Brand concepts usually stop at a moodboard and flat mockups, so you never get a feel for the product." }],

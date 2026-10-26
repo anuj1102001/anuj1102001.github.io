@@ -12,7 +12,7 @@ const LINKS = [
 export default function Contact() {
   const [copied, setCopied] = useState(false);
   return (
-    <section id="contact" className="relative overflow-hidden px-5 pb-16 pt-24 sm:px-8 md:pt-36">
+    <section id="contact" data-tint="#ff6a1f,#e4520c,#ffb36b" className="relative overflow-hidden px-5 pb-16 pt-24 sm:px-8 md:pt-36">
       <div className="pointer-events-none absolute bottom-[-30%] left-1/2 h-[90vmin] w-[140vmin] -translate-x-1/2 rounded-full opacity-50 [background:radial-gradient(circle,#ff6a1f,transparent_62%)] [:root[data-mode=pixel]_&]:hidden" />
       {/* A slow marquee of the line, both directions */}
       <div className="pointer-events-none -mx-5 select-none overflow-hidden sm:-mx-8" aria-hidden>

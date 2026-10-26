@@ -15,7 +15,7 @@ gsap.registerPlugin(useGSAP);
 
 function Chapter({ n, title, children, id }: { n: string; title: string; children: React.ReactNode; id?: string }) {
   return (
-    <section id={id} className="cs-chapter mx-auto grid max-w-[1400px] gap-6 px-5 py-16 sm:px-8 md:grid-cols-[220px_1fr] md:gap-12 md:py-24">
+    <section id={id} className="cs-chapter scroll-mt-16 mx-auto grid max-w-[1400px] gap-6 px-5 py-16 sm:px-8 md:grid-cols-[220px_1fr] md:gap-12 md:py-24">
       <div className="md:sticky md:top-28 md:self-start">
         <p className="mono text-[11px] uppercase tracking-[0.2em] text-ink-500">{n}</p>
         <h2 className="display mt-2 text-[22px] font-semibold tracking-[-0.02em]">{title}</h2>
@@ -71,7 +71,7 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
 
   return (
     <EvidenceProvider>
-      <div ref={root}>
+      <div ref={root} data-tint={`${PROJECTS.find((x) => x.slug === c.slug)?.accent ?? "#ff6a1f"},#ff6a1f,${PROJECTS.find((x) => x.slug === c.slug)?.accent ?? "#e9b949"}`}>
         {/* Hero */}
         <header className="relative overflow-hidden px-5 pb-10 pt-32 sm:px-8 md:pt-40">
           <div className="pointer-events-none absolute -top-40 left-1/2 h-[80vmin] w-[120vmin] -translate-x-1/2 rounded-full opacity-40 [background:radial-gradient(circle,#ff6a1f,transparent_65%)]" />
@@ -107,7 +107,45 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
               ))}
             </div>
           </div>
-          <div className="relative mx-auto mt-16 max-w-[1400px] [perspective:1400px]">
+          {/* The 90-second version */}
+          <div className="cs-in relative mx-auto mt-10 max-w-[1400px]">
+            <div className="glass grid gap-px overflow-hidden md:grid-cols-3" style={{ background: "linear-gradient(160deg, rgba(255,106,31,.10), rgba(255,255,255,.035) 45%)" }}>
+              {(
+                [
+                  ["The problem", c.tldr.problem],
+                  ["My role", c.tldr.role],
+                  ["Outcome", c.tldr.outcome],
+                ] as const
+              ).map(([k, v], i) => (
+                <div key={k} className={`p-5 sm:p-6 ${i ? "border-t border-[var(--line)] md:border-l md:border-t-0" : ""}`}>
+                  <p className="mono flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-ember-300">
+                    <span className="grid h-5 w-5 place-items-center rounded-full bg-ember-500/15 text-[10px] text-ember-300 [:root[data-mode=pixel]_&]:rounded-none">{i + 1}</span>
+                    {k}
+                  </p>
+                  <p className="mt-3 text-[16px] leading-relaxed text-paper">{v}</p>
+                </div>
+              ))}
+            </div>
+            <nav aria-label="Jump to" className="mt-3 flex flex-wrap items-center gap-2">
+              <span className="mono mr-1 text-[10px] uppercase tracking-[0.16em] text-ink-500">Jump to</span>
+              {(
+                [
+                  ["User flow", "#flow", !!d?.flow],
+                  ["Architecture", "#architecture", !!d?.arch],
+                  ["Before & after", "#before-after", !!d?.compare],
+                  ["Try it", "#try", !!(d?.embed || d?.video)],
+                  ["Outcomes", "#outcomes", !!c.metrics],
+                ] as const
+              )
+                .filter(([, , on]) => on)
+                .map(([l, h]) => (
+                  <a key={h} href={h} className="mono rounded-full border border-[var(--line)] px-3 py-1.5 text-[11px] text-ink-300 transition-colors hover:border-ember-500 hover:text-paper [:root[data-mode=pixel]_&]:rounded-none">
+                    {l} ↓
+                  </a>
+                ))}
+            </nav>
+          </div>
+          <div className="relative mx-auto mt-12 max-w-[1400px] [perspective:1400px]">
             <div className="cs-cover glass overflow-hidden p-2 [transform-style:preserve-3d] sm:p-3">
               <img src={`${c.shots[0].img}-1600.webp`} srcSet={`${c.shots[0].img}-800.webp 800w, ${c.shots[0].img}-1600.webp 1600w`} sizes="(min-width: 1400px) 1400px, 100vw" alt={c.shots[0].caption} className="w-full object-cover object-top" style={{ borderRadius: "calc(var(--radius) - 8px)" }} fetchPriority="high" />
             </div>
@@ -149,7 +187,7 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
         ) : null}
 
         {d?.flow ? (
-          <section aria-label="User flow" className="border-y border-[var(--line)] bg-ink-900/40">
+          <section id="flow" aria-label="User flow" className="scroll-mt-20 border-y border-[var(--line)] bg-ink-900/40">
             <p className="mono mx-auto max-w-[1400px] px-5 pt-14 text-[11px] uppercase tracking-[0.2em] text-ink-500 sm:px-8 md:pt-0">{nc()} · User flow</p>
             <FlowStory title={d.flow.title} steps={d.flow.steps} />
           </section>
@@ -207,7 +245,7 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
         ) : null}
 
         {d?.arch ? (
-          <Chapter n={nc()} title="Technical architecture">
+          <Chapter id="architecture" n={nc()} title="Technical architecture">
             <ArchDiagram title={d.arch.title} lanes={d.arch.lanes} principles={d.arch.principles} />
           </Chapter>
         ) : null}
@@ -228,7 +266,7 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
         ) : null}
 
         {d?.compare ? (
-          <Chapter n={nc()} title="Before & after">
+          <Chapter id="before-after" n={nc()} title="Before & after">
             <div className="grid gap-4">
               {d.compare.map((x) => (
                 <div key={x.title} className="cs-reveal">
@@ -240,7 +278,7 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
         ) : null}
 
         {d?.embed || d?.video ? (
-          <Chapter n={nc()} title="Try it">
+          <Chapter id="try" n={nc()} title="Try it">
             <div className="grid gap-4">
               {d.embed ? <LiveEmbed src={d.embed.src} title={d.embed.title} note={d.embed.note} ratio={d.embed.ratio} poster={`${c.shots[0].img}-1600.webp`} /> : null}
               {d.video ? <Walkthrough src={d.video.src} poster={d.video.poster} title={d.video.title} /> : null}
@@ -262,7 +300,7 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
         ) : null}
 
         {c.metrics ? (
-          <Chapter n={nc()} title="Outcomes">
+          <Chapter id="outcomes" n={nc()} title="Outcomes">
             <div className="grid gap-4 sm:grid-cols-2">
               {c.metrics.map((m) => (
                 <div key={m.label} className="cs-reveal glass p-6">
