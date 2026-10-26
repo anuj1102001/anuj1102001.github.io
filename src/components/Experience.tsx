@@ -31,8 +31,8 @@ const ROLES: Role[] = [
     role: "B.Tech, Computer Science and Engineering (AI & ML)",
     org: "Presidency University, Bengaluru",
     summary: "Machine learning and software engineering, and two published papers before graduating.",
-    points: ["Published: Exploring the Evolution of GenAI in Music Composition (IJFMR, 2024)", "Published: Medicine Strip Recognition using Deep Learning (IJCRT, 2024), built with TensorFlow and OpenCV"],
-    skills: ["Machine learning", "Deep learning", "Python", "Java", "SQL"],
+    points: ["Published: Exploring the Evolution of GenAI in Music Composition (IJFMR, 2024)", "Published: Medicine Strip Recognition using Deep Learning (IJCRT, 2024), a Keras CNN built with a team of four"],
+    skills: ["Machine learning", "Deep learning", "Python", "Keras", "SQL"],
   },
   {
     id: "build",
