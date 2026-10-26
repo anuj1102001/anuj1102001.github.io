@@ -66,7 +66,7 @@ $('#copy-email').addEventListener('click',async()=>{
  else{manual.hidden=false;input.focus();input.select();status.textContent='Select the address below and copy it.';}
 });
 $$('[data-resume-download]').forEach(link=>link.addEventListener('click',()=>{$('#resume-help').hidden=false;}));
-$('#dismiss-resume-help').addEventListener('click',()=>{$('#resume-help').hidden=true;});
+$('#dismiss-resume-help')?.addEventListener('click',()=>{$('#resume-help').hidden=true;});
 let dataset=null,metric='revenue',market='All markets',selected=null;
 const svg=$('#retail-chart'),slider=$('#month-slider'),chartStatus=$('#chart-status');
 function formatValue(value){return metric==='revenue'?money.format(value):number.format(value);}

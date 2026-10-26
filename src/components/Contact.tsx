@@ -5,7 +5,7 @@ import { useState } from "react";
 const LINKS = [
   ["LinkedIn", "https://www.linkedin.com/in/anuj-m-622504221"],
   ["GitHub", "https://github.com/anuj1102001"],
-  ["Résumé (PDF)", "/Anuj_M_Resume.pdf"],
+  ["Design system (Figma)", "https://www.figma.com/design/QsLBb2Yx1R6BEPdDG282xE"],
 ] as const;
 
 export default function Contact() {

@@ -262,8 +262,8 @@ export default function Hero() {
             <a href="#work" className="rounded-full bg-paper px-5 py-3 text-[14px] font-semibold text-ink-950 transition hover:bg-ember-300 [:root[data-mode=pixel]_&]:rounded-none [:root[data-mode=pixel]_&]:shadow-[4px_4px_0_#ff6a1f]">
               See the work
             </a>
-            <a href="/Anuj_M_Resume.pdf" className="glass px-5 py-3 text-[14px] font-medium" style={{ borderRadius: "var(--pill)" }}>
-              Résumé
+            <a href="#contact" className="glass px-5 py-3 text-[14px] font-medium" style={{ borderRadius: "var(--pill)" }}>
+              Get in touch
             </a>
           </div>
         </div>

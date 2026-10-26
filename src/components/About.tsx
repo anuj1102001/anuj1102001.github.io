@@ -47,8 +47,8 @@ export default function About() {
 
 
           <div className="mt-8 flex flex-wrap gap-2.5">
-            <a href="/Anuj_M_Resume.pdf" className="rounded-full bg-paper px-5 py-3 text-[14px] font-semibold text-ink-950 hover:bg-ember-300 [:root[data-mode=pixel]_&]:rounded-none [:root[data-mode=pixel]_&]:shadow-[4px_4px_0_#ff6a1f]">
-              Download résumé
+            <a href="https://www.linkedin.com/in/anuj-m-622504221" target="_blank" rel="noreferrer" className="rounded-full bg-paper px-5 py-3 text-[14px] font-semibold text-ink-950 hover:bg-ember-300 [:root[data-mode=pixel]_&]:rounded-none [:root[data-mode=pixel]_&]:shadow-[4px_4px_0_#ff6a1f]">
+              LinkedIn ↗
             </a>
             <button
               onClick={() => {

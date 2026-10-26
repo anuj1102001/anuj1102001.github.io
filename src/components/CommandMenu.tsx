@@ -7,7 +7,7 @@ import { useMode } from "./Mode";
 
 type Item = { label: string; hint: string; run: () => void };
 
-/** ⌘K / Ctrl K: jump to any project or section, switch mode, copy the email, get the résumé. */
+/** ⌘K / Ctrl K: jump to any project or section, switch mode, copy the email. */
 export default function CommandMenu() {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
@@ -26,7 +26,6 @@ export default function CommandMenu() {
       { label: "Contact", hint: "Section", run: go("/#contact") },
       { label: mode === "pixel" ? "Switch to Glass" : "Switch to Pixel", hint: "Display mode", run: toggle },
       { label: "Copy email", hint: "anujleo46@gmail.com", run: () => navigator.clipboard?.writeText("anujleo46@gmail.com") },
-      { label: "Download résumé", hint: "PDF", run: () => window.open("/Anuj_M_Resume.pdf", "_blank") },
       { label: "LinkedIn", hint: "External", run: () => window.open("https://www.linkedin.com/in/anuj-m-622504221", "_blank") },
       { label: "GitHub", hint: "External", run: () => window.open("https://github.com/anuj1102001", "_blank") },
     ];
