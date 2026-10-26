@@ -2,12 +2,15 @@
 
 import { createContext, useCallback, useContext, useSyncExternalStore } from "react";
 
-export type Mode = "glass" | "pixel";
+export type Mode = "glass" | "liquid" | "pixel";
 const Ctx = createContext<{ mode: Mode; setMode: (m: Mode) => void; toggle: () => void }>({ mode: "glass", setMode: () => {}, toggle: () => {} });
 
 // The mode lives on <html data-mode> (set before paint by an inline script); React subscribes to it.
 const EVT = "modechange";
-const read = (): Mode => (document.documentElement.dataset.mode === "pixel" ? "pixel" : "glass");
+const read = (): Mode => {
+  const m = document.documentElement.dataset.mode;
+  return m === "pixel" || m === "liquid" ? m : "glass";
+};
 const subscribe = (cb: () => void) => {
   addEventListener(EVT, cb);
   return () => removeEventListener(EVT, cb);
@@ -23,7 +26,7 @@ export function ModeProvider({ children }: { children: React.ReactNode }) {
     } catch {}
     dispatchEvent(new Event(EVT));
   }, []);
-  const toggle = useCallback(() => setMode(read() === "pixel" ? "glass" : "pixel"), [setMode]);
+  const toggle = useCallback(() => setMode(({ glass: "liquid", liquid: "pixel", pixel: "glass" } as const)[read()]), [setMode]);
   return <Ctx.Provider value={{ mode, setMode, toggle }}>{children}</Ctx.Provider>;
 }
 

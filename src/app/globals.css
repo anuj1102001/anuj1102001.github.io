@@ -394,3 +394,58 @@ body {
   border-radius: 0;
   animation-timing-function: steps(8);
 }
+
+/*
+ * Liquid mode: classic glassmorphism. Vivid colour behind, heavily frosted panels in front with
+ * a bright top edge and an inner sheen, larger radii, and a deep indigo base instead of black.
+ */
+:root[data-mode="liquid"] {
+  --bg: #0a0a16;
+  --panel: rgba(255, 255, 255, 0.07);
+  --panel-strong: rgba(28, 28, 44, 0.42);
+  --panel-border: rgba(255, 255, 255, 0.22);
+  --panel-blur: 26px;
+  --panel-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38), inset 0 -1px 0 rgba(255, 255, 255, 0.06), inset 0 0 24px rgba(255, 255, 255, 0.04), 0 30px 70px -24px rgba(0, 0, 0, 0.55);
+  --radius: 28px;
+  --radius-sm: 16px;
+  --line: rgba(255, 255, 255, 0.12);
+}
+:root[data-mode="liquid"] .glass {
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 45%, rgba(255, 255, 255, 0.07) 100%);
+  backdrop-filter: blur(var(--panel-blur)) saturate(1.8);
+  -webkit-backdrop-filter: blur(var(--panel-blur)) saturate(1.8);
+}
+/* Surfaces that are solid in the other modes become glass too */
+:root[data-mode="liquid"] .ap-card,
+:root[data-mode="liquid"] [role="dialog"] > .glass,
+:root[data-mode="liquid"] [role="dialog"].glass {
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.08)) !important;
+  backdrop-filter: blur(30px) saturate(1.8);
+  -webkit-backdrop-filter: blur(30px) saturate(1.8);
+}
+/* The light behind: brighter and more saturated, so the glass has something to frost */
+:root[data-mode="liquid"] .ambient-a {
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--c1) 70%, transparent), transparent);
+}
+:root[data-mode="liquid"] .ambient-b {
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--c2) 72%, transparent), transparent);
+}
+:root[data-mode="liquid"] .ambient-c {
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--c3) 60%, transparent), transparent);
+}
+:root[data-mode="liquid"] .grain {
+  opacity: 0.035;
+}
+:root[data-mode="liquid"] ::selection {
+  background: #8b7bff;
+  color: #fff;
+}
+/* Liquid: lift secondary text so it reads over bright colour, and give panels a faint dark base. */
+:root[data-mode="liquid"] {
+  --color-ink-500: #b3b3c2;
+  --color-ink-400: #c2c2cf;
+  --color-ink-300: #d6d6df;
+}
+:root[data-mode="liquid"] .glass {
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.04) 45%, rgba(255, 255, 255, 0.08) 100%), rgba(12, 12, 26, 0.28);
+}

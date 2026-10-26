@@ -38,15 +38,15 @@ export function ModeSwitch({ className = "" }: { className?: string }) {
   const { mode, setMode } = useMode();
   return (
     <div role="radiogroup" aria-label="Display mode" className={`glass flex items-center gap-0.5 p-0.5 ${className}`} style={{ borderRadius: "var(--pill)" }}>
-      {(["glass", "pixel"] as const).map((m) => (
+      {(["glass", "liquid", "pixel"] as const).map((m) => (
         <button
           key={m}
           role="radio"
           aria-checked={mode === m}
           onClick={() => setMode(m)}
-          className={`mono rounded-full px-3 py-1.5 text-[11px] uppercase tracking-[0.14em] transition-colors ${mode === m ? "bg-paper text-ink-950" : "text-ink-300 hover:text-paper"}`}
+          className={`mono rounded-full px-2.5 py-1.5 text-[11px] uppercase tracking-[0.12em] transition-colors sm:px-3 ${mode === m ? "bg-paper text-ink-950" : "text-ink-300 hover:text-paper"}`}
         >
-          {m === "glass" ? "Glass" : "Pixel"}
+          {m === "glass" ? "Glass" : m === "liquid" ? "Liquid" : "Pixel"}
         </button>
       ))}
     </div>
