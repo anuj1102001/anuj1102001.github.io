@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { preload } from "react-dom";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { PROJECTS, srcset } from "@/lib/projects";
@@ -69,7 +70,12 @@ function usePixelMorph(mode: string, photo: React.RefObject<HTMLImageElement | n
   return shown;
 }
 
+const PORTRAIT_SET = srcset("/img/me/sunglasses-cut", [700, 900, 1200, 1800]);
+const PORTRAIT_SIZES = "(min-width: 768px) 92vh, 62vh";
+
 export default function Hero() {
+  // The portrait is the largest thing on screen: ask for it before the scripts.
+  preload("/img/me/sunglasses-cut-900.webp", { as: "image", imageSrcSet: PORTRAIT_SET, imageSizes: PORTRAIT_SIZES, fetchPriority: "high" });
   const root = useRef<HTMLElement>(null);
   const photo = useRef<HTMLImageElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -77,11 +83,18 @@ export default function Hero() {
   const { mode } = useMode();
   const shown = usePixelMorph(mode, photo, canvas);
   const [shot, setShot] = useState(0);
+  const [reflect, setReflect] = useState(false);
 
-  // The lenses reflect the work, one project after another.
+  // The lenses reflect the work, one project after another. Their images load once the page is idle.
   useEffect(() => {
+    const start = () => setReflect(true);
+    const idle = typeof requestIdleCallback === "function" ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 1500);
     const id = setInterval(() => setShot((s) => (s + 1) % SHOTS.length), 2600);
-    return () => clearInterval(id);
+    return () => {
+      clearInterval(id);
+      if (typeof cancelIdleCallback === "function") cancelIdleCallback(idle as number);
+      else clearTimeout(idle as number);
+    };
   }, []);
 
   useGSAP(
@@ -91,10 +104,11 @@ export default function Hero() {
 
       // Entrance.
       const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
+      // Transform only: the portrait (the largest image) is visible from the first frame.
       intro
-        .from(q(".h-word"), { yPercent: 40, opacity: 0, duration: 1.6, stagger: 0.06 })
-        .from(q(".h-portrait"), { y: 80, opacity: 0, duration: 1.6 }, 0.1)
-        .from(q(".h-fade"), { y: 24, opacity: 0, duration: 1.1, stagger: 0.07 }, 0.5);
+        .from(q(".h-word"), { yPercent: 30, duration: 1.1, stagger: 0.05 })
+        .from(q(".h-portrait-inner"), { y: 60, duration: 1.2 }, 0)
+        .from(q(".h-fade"), { y: 18, opacity: 0, duration: 0.8, stagger: 0.05 }, 0.25);
 
       // Cursor: the portrait leans a little and the reflections slide inside the lenses.
       const onMove = (e: PointerEvent) => {
@@ -145,14 +159,14 @@ export default function Hero() {
   return (
     <section id="top" ref={root} className="relative h-[100svh] min-h-[640px] overflow-hidden" aria-label="Introduction">
       {/* Ember glow behind the portrait */}
-      <div className="h-glow pointer-events-none absolute left-1/2 top-[58%] h-[110vmin] w-[110vmin] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-90 blur-[90px] [background:radial-gradient(circle_at_50%_45%,#ff6a1f_0%,#e4520c_28%,rgba(120,30,8,.6)_52%,transparent_70%)] [:root[data-mode=pixel]_&]:blur-0 [:root[data-mode=pixel]_&]:[background:repeating-conic-gradient(#ff6a1f_0_25%,#e4520c_0_50%)_0_0/24px_24px] [:root[data-mode=pixel]_&]:opacity-25" />
+      <div className="h-glow pointer-events-none absolute left-1/2 top-[58%] h-[110vmin] w-[110vmin] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-90 [background:radial-gradient(circle_at_50%_45%,rgba(255,106,31,.95)_0%,rgba(228,82,12,.75)_22%,rgba(120,30,8,.45)_45%,rgba(60,14,4,.15)_60%,transparent_70%)] [:root[data-mode=pixel]_&]:[background:repeating-conic-gradient(#ff6a1f_0_25%,#e4520c_0_50%)_0_0/24px_24px] [:root[data-mode=pixel]_&]:opacity-25" />
       <div className="dot-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
 
       {/* The name, behind the portrait */}
       <div className="h-word-wrap pointer-events-none absolute inset-x-0 top-[13%] flex justify-center md:top-[9%]" aria-hidden>
-        <p className="display flex select-none text-[38vw] font-semibold leading-[0.8] tracking-[-0.075em] text-paper md:text-[30vw]">
-          {"ANUJ".split("").map((ch, i) => (
-            <span key={i} className="h-word inline-block">
+        <p className="display flex select-none whitespace-pre text-[27vw] font-semibold leading-[0.8] tracking-[-0.075em] text-paper md:text-[21.5vw]">
+          {"ANUJ M".split("").map((ch, i) => (
+            <span key={i} className={`h-word inline-block ${ch === " " ? "w-[0.22em]" : ""}`}>
               {ch}
             </span>
           ))}
@@ -164,16 +178,17 @@ export default function Hero() {
         <div className="h-portrait-inner relative h-full w-full [mask-image:linear-gradient(to_bottom,black_82%,transparent)] md:[mask-image:none]">
           <img
             ref={photo}
-            src="/img/me/sunglasses-cut-1200.webp"
-            srcSet={srcset("/img/me/sunglasses-cut", [700, 1200, 1800])}
-            sizes="(min-width: 768px) 92vh, 78vh"
+            src="/img/me/sunglasses-cut-900.webp"
+            srcSet={PORTRAIT_SET}
+            sizes={PORTRAIT_SIZES}
             alt="Anuj M in sunglasses"
             fetchPriority="high"
             className={`absolute inset-0 h-full w-full select-none object-contain transition-opacity duration-150 ${shown === "photo" ? "opacity-100" : "opacity-0"}`}
             draggable={false}
           />
+          {/* Loaded once the page is idle (or straight away in Pixel mode), not up front. */}
           <img
-            src="/img/me/sunglasses-pixel-1200.png"
+            src={reflect || mode === "pixel" ? "/img/me/sunglasses-pixel-1200.png" : undefined}
             alt=""
             aria-hidden
             className={`absolute inset-0 h-full w-full select-none object-contain [image-rendering:pixelated] ${shown === "pixel" ? "opacity-100" : "opacity-0"}`}
@@ -200,7 +215,7 @@ export default function Hero() {
             ].map(([id, x, y]) => (
               <g key={id as string} clipPath={`url(#${id})`} style={{ mixBlendMode: "screen" }}>
                 <g ref={id === "lensL" ? lens : undefined}>
-                  {SHOTS.map((s, i) => (
+                  {(reflect ? SHOTS : []).map((s, i) => (
                     <image
                       key={s}
                       href={s}
@@ -223,7 +238,7 @@ export default function Hero() {
 
       {/* Work tiles that gather around the portrait on scroll */}
       {PROJECTS.map((p, i) => (
-        <a key={p.slug} href={`#work-${p.slug}`} className="h-tile glass pointer-events-auto absolute left-1/2 top-1/2 overflow-hidden p-1.5 opacity-0" style={{ borderRadius: "var(--radius)" }} tabIndex={-1} aria-hidden>
+        <a key={p.slug} href={`/work/${p.slug}/`} className="h-tile glass pointer-events-auto absolute left-1/2 top-1/2 overflow-hidden p-1.5 opacity-0" style={{ borderRadius: "var(--radius)" }} tabIndex={-1} aria-hidden>
           <img src={`${p.cover}-800.webp`} alt="" className="aspect-[16/10] w-full object-cover object-top" style={{ borderRadius: "calc(var(--radius) - 6px)" }} loading="lazy" />
           <span className="mono flex items-center justify-between px-1.5 pt-1.5 text-[10px] uppercase tracking-[0.14em] text-ink-300">
             {p.name}
@@ -247,7 +262,7 @@ export default function Hero() {
             <a href="#work" className="rounded-full bg-paper px-5 py-3 text-[14px] font-semibold text-ink-950 transition hover:bg-ember-300 [:root[data-mode=pixel]_&]:rounded-none [:root[data-mode=pixel]_&]:shadow-[4px_4px_0_#ff6a1f]">
               See the work
             </a>
-            <a href="/Anuj_M_Resume.pdf" className="glass px-5 py-3 text-[14px] font-medium" style={{ borderRadius: "999px" }}>
+            <a href="/Anuj_M_Resume.pdf" className="glass px-5 py-3 text-[14px] font-medium" style={{ borderRadius: "var(--pill)" }}>
               Résumé
             </a>
           </div>

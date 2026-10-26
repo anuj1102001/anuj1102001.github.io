@@ -3,11 +3,13 @@ import { Geist, Geist_Mono, Instrument_Serif, Pixelify_Sans } from "next/font/go
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import { ModeProvider } from "@/components/Mode";
+import CommandMenu from "@/components/CommandMenu";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
 const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-instrument", display: "swap" });
-const pixelify = Pixelify_Sans({ subsets: ["latin"], variable: "--font-pixelify", display: "swap" });
+// Only Pixel mode uses this face, so it is not preloaded.
+const pixelify = Pixelify_Sans({ subsets: ["latin"], variable: "--font-pixelify", display: "swap", preload: false });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://anuj1102001.github.io"),
@@ -30,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ModeProvider>
           <SmoothScroll />
           {children}
+          <CommandMenu />
         </ModeProvider>
         <div className="grain" aria-hidden />
       </body>

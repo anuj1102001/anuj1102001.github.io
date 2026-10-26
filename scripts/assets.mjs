@@ -12,7 +12,7 @@ const CSS = process.env.CSS_SHOTS ?? "C:/Users/anujl/AppData/Local/Temp/claude/C
 
 const jobs = [
   // portraits
-  ["design/photos/sunglasses-cut.png", "me/sunglasses-cut", [700, 1200, 1800], { alpha: true }],
+  ["design/photos/sunglasses-cut.png", "me/sunglasses-cut", [700, 900, 1200, 1800], { alpha: true }],
   ["design/photos/portrait-dark-cut.png", "me/portrait-cut", [600, 1100], { alpha: true }],
   ["design/photos/profile-beige.webp", "me/profile", [800, 1400]],
   ["design/photos/portrait-dark.webp", "me/portrait", [600, 1200]],

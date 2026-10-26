@@ -1,25 +1,29 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useSyncExternalStore } from "react";
 
 export type Mode = "glass" | "pixel";
 const Ctx = createContext<{ mode: Mode; setMode: (m: Mode) => void; toggle: () => void }>({ mode: "glass", setMode: () => {}, toggle: () => {} });
 
+// The mode lives on <html data-mode> (set before paint by an inline script); React subscribes to it.
+const EVT = "modechange";
+const read = (): Mode => (document.documentElement.dataset.mode === "pixel" ? "pixel" : "glass");
+const subscribe = (cb: () => void) => {
+  addEventListener(EVT, cb);
+  return () => removeEventListener(EVT, cb);
+};
+
 /** Glass or Pixel: stored per visitor, applied as <html data-mode>, which the CSS tokens read. */
 export function ModeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setModeState] = useState<Mode>("glass");
-  useEffect(() => {
-    // The inline script in <head> may already have applied Pixel before hydration.
-    if (document.documentElement.dataset.mode === "pixel") setModeState("pixel");
-  }, []);
+  const mode = useSyncExternalStore(subscribe, read, () => "glass" as Mode);
   const setMode = useCallback((m: Mode) => {
-    setModeState(m);
     document.documentElement.dataset.mode = m;
     try {
       localStorage.setItem("mode", m);
     } catch {}
+    dispatchEvent(new Event(EVT));
   }, []);
-  const toggle = useCallback(() => setMode(document.documentElement.dataset.mode === "pixel" ? "glass" : "pixel"), [setMode]);
+  const toggle = useCallback(() => setMode(read() === "pixel" ? "glass" : "pixel"), [setMode]);
   return <Ctx.Provider value={{ mode, setMode, toggle }}>{children}</Ctx.Provider>;
 }
 

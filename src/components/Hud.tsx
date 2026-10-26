@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useMode } from "./Mode";
 
 /** Bengaluru time, updated each minute. Rendered empty on the server to avoid a mismatch. */
@@ -36,7 +37,7 @@ function useLcp() {
 export function ModeSwitch({ className = "" }: { className?: string }) {
   const { mode, setMode } = useMode();
   return (
-    <div role="radiogroup" aria-label="Display mode" className={`glass flex items-center gap-0.5 p-0.5 ${className}`} style={{ borderRadius: "999px" }}>
+    <div role="radiogroup" aria-label="Display mode" className={`glass flex items-center gap-0.5 p-0.5 ${className}`} style={{ borderRadius: "var(--pill)" }}>
       {(["glass", "pixel"] as const).map((m) => (
         <button
           key={m}
@@ -53,10 +54,10 @@ export function ModeSwitch({ className = "" }: { className?: string }) {
 }
 
 const NAV = [
-  ["Work", "#work"],
-  ["Approach", "#approach"],
-  ["About", "#about"],
-  ["Contact", "#contact"],
+  ["Work", "/#work"],
+  ["Approach", "/#approach"],
+  ["About", "/#about"],
+  ["Contact", "/#contact"],
 ] as const;
 
 export default function Hud() {
@@ -82,18 +83,21 @@ export default function Hud() {
         <span className="ml-auto">Portfolio · 2026</span>
       </div>
       <div className="flex items-center justify-between gap-4 px-4 pt-3 sm:px-6">
-        <a href="#top" className="glass pointer-events-auto flex items-center gap-2 px-3.5 py-2" style={{ borderRadius: "999px" }} aria-label="Anuj M, back to top">
-          <span className="grid h-6 w-6 place-items-center rounded-full bg-ember-500 text-[12px] font-bold text-ink-950 [:root[data-mode=pixel]_&]:rounded-none">A</span>
+        <Link href="/#top" className="glass pointer-events-auto flex items-center gap-2 px-3.5 py-2" style={{ borderRadius: "var(--pill)" }}>
+          <span aria-hidden className="grid h-6 w-6 place-items-center rounded-full bg-ember-500 text-[12px] font-bold text-ink-950 [:root[data-mode=pixel]_&]:rounded-none">A</span>
           <span className="display text-[14px] font-semibold tracking-tight">Anuj M</span>
-        </a>
-        <nav aria-label="Sections" className="glass pointer-events-auto hidden items-center gap-1 px-1.5 py-1.5 md:flex" style={{ borderRadius: "999px" }}>
+        </Link>
+        <nav aria-label="Sections" className="glass pointer-events-auto hidden items-center gap-1 px-1.5 py-1.5 md:flex" style={{ borderRadius: "var(--pill)" }}>
           {NAV.map(([label, href]) => (
-            <a key={href} href={href} className="rounded-full px-3.5 py-1.5 text-[13px] text-ink-300 transition-colors hover:bg-white/[0.07] hover:text-paper">
+            <Link key={href} href={href} className="rounded-full px-3.5 py-1.5 text-[13px] text-ink-300 transition-colors hover:bg-white/[0.07] hover:text-paper">
               {label}
-            </a>
+            </Link>
           ))}
         </nav>
         <div className="pointer-events-auto flex items-center gap-2">
+          <button onClick={() => dispatchEvent(new Event("open-command-menu"))} className="glass mono hidden px-3 py-2 text-[11px] text-ink-300 hover:text-paper sm:block" style={{ borderRadius: "var(--pill)" }} aria-label="⌘K, open command menu">
+            ⌘K
+          </button>
           <ModeSwitch />
         </div>
       </div>

@@ -36,9 +36,7 @@ export default function Work() {
             {PROJECTS.map((x, i) => (
               <li key={x.slug} id={`work-${x.slug}`} className="w-row border-b border-[var(--line)]">
                 <a
-                  href={x.live}
-                  target="_blank"
-                  rel="noreferrer"
+                  href={`/work/${x.slug}/`}
                   onPointerEnter={() => setActive(i)}
                   onFocus={() => setActive(i)}
                   className="group grid grid-cols-[2.2rem_1fr_auto] items-baseline gap-3 py-5"
