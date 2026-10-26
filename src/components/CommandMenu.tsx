@@ -24,7 +24,7 @@ export default function CommandMenu() {
       { label: "Approach", hint: "Section", run: go("/#approach") },
       { label: "About", hint: "Section", run: go("/#about") },
       { label: "Contact", hint: "Section", run: go("/#contact") },
-      { label: `Next display mode (now ${mode})`, hint: "Glass · Liquid · Pixel", run: toggle },
+      { label: mode === "pixel" ? "Switch to Glass" : "Switch to Pixel", hint: "Display mode", run: toggle },
       { label: "Copy email", hint: "anujleo46@gmail.com", run: () => navigator.clipboard?.writeText("anujleo46@gmail.com") },
       { label: "Résumé", hint: "PDF", run: () => window.open("/Anuj_M_Resume.pdf", "_blank") },
       { label: "LinkedIn", hint: "External", run: () => window.open("https://www.linkedin.com/in/anuj-m-622504221", "_blank") },

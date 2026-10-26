@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" data-mode="glass" className={`${geist.variable} ${geistMono.variable} ${instrument.variable} ${pixelify.variable}`} suppressHydrationWarning>
       <head>
         {/* Restore the visitor's mode before paint, so Pixel mode does not flash Glass. */}
-        <script dangerouslySetInnerHTML={{ __html: `try{var m=localStorage.getItem('mode');if(m==='pixel'||m==='liquid')document.documentElement.dataset.mode=m;var q=new URLSearchParams(location.search).get('mode');if(q==='glass'||q==='liquid'||q==='pixel'){document.documentElement.dataset.mode=q;localStorage.setItem('mode',q)}}catch(e){}` }} />
+        <script dangerouslySetInnerHTML={{ __html: `try{var m=localStorage.getItem('mode');if(m==='pixel')document.documentElement.dataset.mode='pixel';var q=new URLSearchParams(location.search).get('mode');if(q==='glass'||q==='pixel'){document.documentElement.dataset.mode=q;localStorage.setItem('mode',q)}}catch(e){}` }} />
       </head>
       <body>
         <ModeProvider>
