@@ -235,7 +235,7 @@ export function LiveEmbed({ src, title, note, poster, ratio = "16/10" }: { src: 
           ))}
         </span>
         <span className="mono ml-2 truncate rounded-full bg-white/[0.06] px-3 py-1 text-[11px] text-ink-300 [:root[data-mode=pixel]_&]:rounded-none">{src.replace("https://", "")}</span>
-        <a href={src} target="_blank" rel="noreferrer" className="mono ml-auto text-[11px] text-ink-400 hover:text-paper">
+        <a href={src} target="_blank" rel="noreferrer" data-launch={title.split(",")[0]} className="mono ml-auto text-[11px] text-ink-400 hover:text-paper">
           Open ↗
         </a>
       </div>

@@ -101,7 +101,7 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
             </div>
             <div className="cs-in mt-8 flex flex-wrap gap-2">
               {c.links.map((l, i) => (
-                <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className={i === 0 ? "rounded-full bg-paper px-5 py-2.5 text-[14px] font-semibold text-ink-950 hover:bg-ember-300 [:root[data-mode=pixel]_&]:rounded-none [:root[data-mode=pixel]_&]:shadow-[4px_4px_0_#ff6a1f]" : "glass px-5 py-2.5 text-[14px]"} style={i === 0 ? undefined : { borderRadius: "var(--pill)" }}>
+                <a key={l.href} href={l.href} target="_blank" rel="noreferrer" data-launch={/^(Live|Launch)/.test(l.label) ? c.title : "true"} className={i === 0 ? "rounded-full bg-paper px-5 py-2.5 text-[14px] font-semibold text-ink-950 hover:bg-ember-300 [:root[data-mode=pixel]_&]:rounded-none [:root[data-mode=pixel]_&]:shadow-[4px_4px_0_#ff6a1f]" : "glass px-5 py-2.5 text-[14px]"} style={i === 0 ? undefined : { borderRadius: "var(--pill)" }}>
                   {l.label} ↗
                 </a>
               ))}
@@ -234,7 +234,7 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
                   <p className="text-[18px] font-medium">{x.t}</p>
                   <p className="mt-2 text-[15px] leading-relaxed text-ink-300">{x.d}</p>
                   {x.href ? (
-                    <a href={x.href} target="_blank" rel="noreferrer" className="mono mt-4 inline-block text-[11px] uppercase tracking-[0.14em] text-ember-300 hover:text-paper">
+                    <a href={x.href} target="_blank" rel="noreferrer" data-launch="true" className="mono mt-4 inline-block text-[11px] uppercase tracking-[0.14em] text-ember-300 hover:text-paper">
                       Open ↗
                     </a>
                   ) : null}

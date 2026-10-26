@@ -394,3 +394,27 @@ body {
   border-radius: 0;
   animation-timing-function: steps(8);
 }
+
+/* Live-demo launch (Launch.tsx) */
+.lc-pixel {
+  display: none;
+}
+:root[data-mode="pixel"] .lc-pixel {
+  display: inline;
+}
+:root[data-mode="pixel"] .lc-glass {
+  display: none;
+}
+.lc-flame {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: lc-flame 0.12s ease-in-out infinite alternate;
+}
+.lc-flame-2 {
+  animation-duration: 0.09s;
+}
+@keyframes lc-flame {
+  to {
+    transform: scaleY(1.45) scaleX(0.85);
+  }
+}
