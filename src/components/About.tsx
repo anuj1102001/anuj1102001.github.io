@@ -50,6 +50,9 @@ export default function About() {
             <a href="https://www.linkedin.com/in/anuj-m-622504221" target="_blank" rel="noreferrer" className="rounded-full bg-paper px-5 py-3 text-[14px] font-semibold text-ink-950 hover:bg-ember-300 [:root[data-mode=pixel]_&]:rounded-none [:root[data-mode=pixel]_&]:shadow-[4px_4px_0_#ff6a1f]">
               LinkedIn ↗
             </a>
+            <a href="/Anuj_M_Resume.pdf" target="_blank" rel="noreferrer" className="glass px-5 py-3 text-[14px]" style={{ borderRadius: "var(--pill)" }}>
+              Résumé (PDF)
+            </a>
             <button
               onClick={() => {
                 navigator.clipboard?.writeText("anujleo46@gmail.com").then(() => {
