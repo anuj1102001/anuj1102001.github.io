@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Two modes share one layout:
+ *  - glass (default): dark ink, frosted panels, an ember glow
+ *  - pixel: the same site re-rendered as pixel art (hard edges, offset shadows, pixel type)
+ * Components read the semantic variables below, never raw values, so a mode switch is
+ * a change of variables on <html data-mode>.
+ */
+@theme {
+  --color-ink-950: #08080a;
+  --color-ink-900: #0e0e11;
+  --color-ink-800: #16161a;
+  --color-ink-700: #222228;
+  --color-ink-500: #6b6b76;
+  --color-ink-400: #8e8e99;
+  --color-ink-300: #b4b4bd;
+  --color-paper: #f3ede4;
+  --color-ember-300: #ffb36b;
+  --color-ember-400: #ff8a3d;
+  --color-ember-500: #ff6a1f;
+  --color-ember-600: #e4520c;
+  --color-lime: #c6ff3d;
+
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: var(--font-instrument), Georgia, serif;
+  --font-pixel: var(--font-pixelify), var(--font-geist-mono), monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  color-scheme: dark;
+  --bg: var(--color-ink-950);
+  --fg: var(--color-paper);
+  --fg-2: var(--color-ink-300);
+  --fg-3: var(--color-ink-500);
+  --line: rgba(255, 255, 255, 0.08);
+  --panel: rgba(255, 255, 255, 0.045);
+  --panel-strong: rgba(18, 18, 22, 0.62);
+  --panel-border: rgba(255, 255, 255, 0.1);
+  --panel-blur: 18px;
+  --panel-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 20px 50px -20px rgba(0, 0, 0, 0.6);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --ui-font: var(--font-sans);
+  --display-font: var(--font-sans);
+}
+
+:root[data-mode="pixel"] {
+  --panel: #121216;
+  --panel-strong: #121216;
+  --panel-border: #f3ede4;
+  --panel-blur: 0px;
+  --panel-shadow: 4px 4px 0 0 #ff6a1f;
+  --radius: 0px;
+  --radius-sm: 0px;
+  --ui-font: var(--font-pixel);
+  --display-font: var(--font-pixel);
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--ui-font);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-ember-500);
+  color: #120800;
+}
+
+/* A frosted panel; in pixel mode a hard-edged box with an offset ember shadow. */
+.glass {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--panel-blur)) saturate(1.4);
+  -webkit-backdrop-filter: blur(var(--panel-blur)) saturate(1.4);
+}
+:root[data-mode="pixel"] .glass {
+  border-width: 2px;
+}
+
+.display {
+  font-family: var(--display-font);
+}
+:root[data-mode="pixel"] .display {
+  letter-spacing: 0 !important;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+:root[data-mode="pixel"] .mono {
+  font-family: var(--font-pixel);
+}
+
+/* Film grain over everything, very faint. */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+:root[data-mode="pixel"] .grain {
+  display: none;
+}
+
+/* Pixel mode: crisp images and a pixel cursor. */
+:root[data-mode="pixel"] img {
+  image-rendering: pixelated;
+}
+:root[data-mode="pixel"] body {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' shape-rendering='crispEdges'%3E%3Cpath d='M2 2h2v2h2v2h2v2h2v2h2v2h2v2h-4v2h2v2h2v2h-2v2h-2v-2h-2v-2h-2v2h-2v2h-2z' fill='%23f3ede4' stroke='%2308080a' stroke-width='1'/%3E%3C/svg%3E") 2 2, auto;
+}
+
+.dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
