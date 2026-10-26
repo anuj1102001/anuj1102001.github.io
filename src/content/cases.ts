@@ -375,7 +375,8 @@ export const CASES: Record<string, Case> = {
       },
     ],
     shots: [
-      { img: W("solune/hero-afterdark"), caption: "The liquid opening, Afterdark" },
+      { img: W("solune/hero-new"), caption: "The liquid opening, Afterdark, with the path-traced bottle" },
+      { img: W("solune/trio"), caption: "Path-traced studio shot of the three Afterdark blends" },
       { img: W("solune/pour-bar"), caption: "The 3D pour bar" },
       { img: W("solune/night-dial"), caption: "The night dial" },
     ],

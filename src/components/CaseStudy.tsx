@@ -6,6 +6,10 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import type { Case } from "@/content/cases";
 import { Cite, EvidenceProvider } from "./Evidence";
+import { wipeTo } from "./Transition";
+import { PROJECTS } from "@/lib/projects";
+import { DEPTH } from "@/content/depth";
+import { ArchDiagram, CompareBlock, FlowStory, LiveEmbed, Walkthrough } from "./case/Blocks";
 
 gsap.registerPlugin(useGSAP);
 
@@ -25,6 +29,9 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
   const root = useRef<HTMLDivElement>(null);
   let cite = 0;
   const nextCite = () => ++cite;
+  let ch = 0;
+  const nc = () => String(++ch).padStart(2, "0");
+  const d = DEPTH[c.slug];
 
   useGSAP(
     () => {
@@ -107,7 +114,7 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
           </div>
         </header>
 
-        <Chapter n="01" title="The problem">
+        <Chapter n={nc()} title="The problem">
           <div className="max-w-[760px] space-y-5 text-[clamp(20px,2vw,28px)] leading-snug tracking-[-0.01em]">
             {c.problem.map((p, i) => (
               <p key={i} className="cs-reveal">
@@ -122,7 +129,33 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
           </div>
         </Chapter>
 
-        <Chapter n="02" title="Key decisions">
+        {d?.research ? (
+          <Chapter n={nc()} title="Research">
+            <div className="cs-reveal glass max-w-[760px] border-l-2 !border-l-ember-500 p-6">
+              <p className="mono text-[10px] uppercase tracking-[0.18em] text-ember-300">Status, honestly</p>
+              <p className="mt-2 text-[17px] leading-relaxed text-paper">{d.research.status}</p>
+            </div>
+            {d.research.items.length ? (
+              <ul className="mt-6 max-w-[760px] space-y-3">
+                {d.research.items.map((x) => (
+                  <li key={x} className="cs-reveal flex gap-3 text-[16px] leading-relaxed text-ink-300">
+                    <span className="mt-[0.55em] h-1.5 w-1.5 shrink-0 bg-ember-400" />
+                    {x}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </Chapter>
+        ) : null}
+
+        {d?.flow ? (
+          <section aria-label="User flow" className="border-y border-[var(--line)] bg-ink-900/40">
+            <p className="mono mx-auto max-w-[1400px] px-5 pt-14 text-[11px] uppercase tracking-[0.2em] text-ink-500 sm:px-8 md:pt-0">{nc()} · User flow</p>
+            <FlowStory title={d.flow.title} steps={d.flow.steps} />
+          </section>
+        ) : null}
+
+        <Chapter n={nc()} title="Key decisions">
           <div className="grid gap-4 md:grid-cols-2">
             {c.decisions.map((d, i) => (
               <article key={d.title} className="cs-reveal glass flex flex-col p-6">
@@ -142,8 +175,8 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
         <section className="cs-gallery relative overflow-hidden py-16 md:flex md:h-[100svh] md:items-center md:py-0" aria-label="Screens">
           <div className="cs-track flex gap-5 overflow-x-auto px-5 pb-4 sm:px-8 md:overflow-visible md:pb-0">
             <div className="flex w-[240px] shrink-0 flex-col justify-end pb-2 md:w-[300px]">
-              <p className="mono text-[11px] uppercase tracking-[0.2em] text-ink-500">03</p>
-              <h2 className="display mt-2 text-[clamp(30px,3.4vw,48px)] font-semibold leading-[0.95] tracking-[-0.04em]">What it looks like</h2>
+              <p className="mono text-[11px] uppercase tracking-[0.2em] text-ink-500">{nc()}</p>
+              <h2 className="display mt-2 text-[clamp(30px,3.4vw,48px)] font-semibold leading-[0.95] tracking-[-0.04em]">Final interface</h2>
               <p className="mt-3 text-[14px] text-ink-500">Real screens from the live product.</p>
             </div>
             {c.shots.map((s) => (
@@ -155,8 +188,81 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
           </div>
         </section>
 
+        {d?.explorations ? (
+          <Chapter n={nc()} title="UI explorations">
+            <div className="grid gap-4 md:grid-cols-2">
+              {d.explorations.map((x) => (
+                <div key={x.t} className="cs-reveal glass p-6">
+                  <p className="text-[18px] font-medium">{x.t}</p>
+                  <p className="mt-2 text-[15px] leading-relaxed text-ink-300">{x.d}</p>
+                  {x.href ? (
+                    <a href={x.href} target="_blank" rel="noreferrer" className="mono mt-4 inline-block text-[11px] uppercase tracking-[0.14em] text-ember-300 hover:text-paper">
+                      Open ↗
+                    </a>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </Chapter>
+        ) : null}
+
+        {d?.arch ? (
+          <Chapter n={nc()} title="Technical architecture">
+            <ArchDiagram title={d.arch.title} lanes={d.arch.lanes} principles={d.arch.principles} />
+          </Chapter>
+        ) : null}
+
+        {d?.ai ? (
+          <Chapter n={nc()} title="AI implementation">
+            <h3 className="display text-[clamp(24px,2.4vw,34px)] font-semibold tracking-[-0.03em]">{d.ai.title}</h3>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {d.ai.items.map((x, k) => (
+                <div key={x.t} className="cs-reveal glass p-6">
+                  <p className="mono text-[11px] text-ember-400">{String(k + 1).padStart(2, "0")}</p>
+                  <p className="mt-3 text-[18px] font-medium">{x.t}</p>
+                  <p className="mt-2 text-[15px] leading-relaxed text-ink-300">{x.d}</p>
+                </div>
+              ))}
+            </div>
+          </Chapter>
+        ) : null}
+
+        {d?.compare ? (
+          <Chapter n={nc()} title="Before & after">
+            <div className="grid gap-4">
+              {d.compare.map((x) => (
+                <div key={x.title} className="cs-reveal">
+                  <CompareBlock c={x} />
+                </div>
+              ))}
+            </div>
+          </Chapter>
+        ) : null}
+
+        {d?.embed || d?.video ? (
+          <Chapter n={nc()} title="Try it">
+            <div className="grid gap-4">
+              {d.embed ? <LiveEmbed src={d.embed.src} title={d.embed.title} note={d.embed.note} ratio={d.embed.ratio} poster={`${c.shots[0].img}-1600.webp`} /> : null}
+              {d.video ? <Walkthrough src={d.video.src} poster={d.video.poster} title={d.video.title} /> : null}
+            </div>
+          </Chapter>
+        ) : null}
+
+        {d?.challenges ? (
+          <Chapter n={nc()} title="Challenges">
+            <div className="grid gap-4 md:grid-cols-2">
+              {d.challenges.map((x) => (
+                <div key={x.t} className="cs-reveal glass p-6">
+                  <p className="text-[18px] font-medium">{x.t}</p>
+                  <p className="mt-2 text-[15px] leading-relaxed text-ink-300">{x.d}</p>
+                </div>
+              ))}
+            </div>
+          </Chapter>
+        ) : null}
+
         {c.metrics ? (
-          <Chapter n="04" title="The evidence">
+          <Chapter n={nc()} title="Outcomes">
             <div className="grid gap-4 sm:grid-cols-2">
               {c.metrics.map((m) => (
                 <div key={m.label} className="cs-reveal glass p-6">
@@ -172,7 +278,7 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
           </Chapter>
         ) : null}
 
-        <Chapter n={c.metrics ? "05" : "04"} title="What's next">
+        <Chapter n={nc()} title="What's next">
           {c.next.length ? (
             <ul className="max-w-[760px] space-y-3">
               {c.next.map((x) => (
@@ -187,7 +293,16 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
         </Chapter>
 
         {/* Next project */}
-        <a href={`/work/${next.slug}/`} className="group relative block overflow-hidden border-t border-[var(--line)] px-5 py-20 sm:px-8 md:py-28">
+        <a
+          href={`/work/${next.slug}/`}
+          onClick={(e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+            e.preventDefault();
+            const p = PROJECTS.find((x) => x.slug === next.slug);
+            wipeTo({ href: `/work/${next.slug}/`, rect: e.currentTarget.getBoundingClientRect(), color: p?.accent, label: next.title });
+          }}
+          className="group relative block overflow-hidden border-t border-[var(--line)] px-5 py-20 sm:px-8 md:py-28"
+        >
           <div className="mx-auto max-w-[1400px]">
             <p className="mono text-[11px] uppercase tracking-[0.2em] text-ink-500">Next project</p>
             <p className="display mt-3 text-[clamp(48px,9vw,150px)] font-semibold leading-[0.88] tracking-[-0.06em] text-ink-400 transition-colors duration-500 group-hover:text-paper">

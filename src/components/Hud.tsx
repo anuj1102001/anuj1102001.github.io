@@ -56,6 +56,7 @@ export function ModeSwitch({ className = "" }: { className?: string }) {
 const NAV = [
   ["Work", "/#work"],
   ["Approach", "/#approach"],
+  ["Experience", "/#experience"],
   ["About", "/#about"],
   ["Contact", "/#contact"],
 ] as const;

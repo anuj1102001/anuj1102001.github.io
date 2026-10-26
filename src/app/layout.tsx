@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import { ModeProvider } from "@/components/Mode";
 import CommandMenu from "@/components/CommandMenu";
+import Transition from "@/components/Transition";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SmoothScroll />
           {children}
           <CommandMenu />
+          <Transition />
         </ModeProvider>
         <div className="grain" aria-hidden />
       </body>

@@ -4,12 +4,6 @@ import { useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
-const PATH = [
-  { when: "Jul 2026 – now", what: "Data Analyst", where: "Togle Labs", note: "Power BI dashboards and software prototypes on operational and revenue data" },
-  { when: "Nov 2025 – Jul 2026", what: "Technical Research Associate, AI", where: "Keywords Studios", note: "Promoted after four months; led a team on a client project for Amazon AGI Lab, evaluating LLM outputs for accuracy, safety and failure patterns" },
-  { when: "Jul 2025 – Nov 2025", what: "Research Associate, AI", where: "Keywords Studios", note: "Prompt creation, response evaluation, data annotation and dataset quality" },
-  { when: "2020 – 2024", what: "B.Tech, Computer Science (AI & ML)", where: "Presidency University, Bengaluru", note: "Two published papers: GenAI in music composition; medicine strip recognition" },
-];
 
 export default function About() {
   const root = useRef<HTMLElement>(null);
@@ -51,19 +45,6 @@ export default function About() {
             </p>
           </div>
 
-          <ol className="mt-12 border-t border-[var(--line)]">
-            {PATH.map((r) => (
-              <li key={r.when} className="ab-row grid gap-1 border-b border-[var(--line)] py-5 sm:grid-cols-[170px_1fr] sm:gap-6">
-                <span className="mono text-[11px] uppercase tracking-[0.14em] text-ink-500">{r.when}</span>
-                <span>
-                  <span className="block text-[17px] font-medium text-paper">
-                    {r.what} <span className="text-ink-400">· {r.where}</span>
-                  </span>
-                  <span className="mt-1 block text-[14px] leading-relaxed text-ink-500">{r.note}</span>
-                </span>
-              </li>
-            ))}
-          </ol>
 
           <div className="mt-8 flex flex-wrap gap-2.5">
             <a href="/Anuj_M_Resume.pdf" className="rounded-full bg-paper px-5 py-3 text-[14px] font-semibold text-ink-950 hover:bg-ember-300 [:root[data-mode=pixel]_&]:rounded-none [:root[data-mode=pixel]_&]:shadow-[4px_4px_0_#ff6a1f]">
