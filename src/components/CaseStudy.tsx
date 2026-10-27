@@ -6,10 +6,10 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import type { Case } from "@/content/cases";
 import { Cite, EvidenceProvider } from "./Evidence";
-import { wipeTo } from "./Transition";
+import { wipeTo } from "@/lib/wipe";
 import { PROJECTS } from "@/lib/projects";
 import { DEPTH } from "@/content/depth";
-import { ArchDiagram, CompareBlock, FlowStory, LiveEmbed, Walkthrough } from "./case/Blocks";
+import { ArchDiagram, CompareBlock, Evolution, FlowStory, LiveEmbed, Walkthrough } from "./case/Blocks";
 
 gsap.registerPlugin(useGSAP);
 
@@ -130,6 +130,7 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
               <span className="mono mr-1 text-[10px] uppercase tracking-[0.16em] text-ink-500">Jump to</span>
               {(
                 [
+                  ["How it evolved", "#evolution", !!d?.evolution],
                   ["User flow", "#flow", !!d?.flow],
                   ["Architecture", "#architecture", !!d?.arch],
                   ["Before & after", "#before-after", !!d?.compare],
@@ -208,6 +209,12 @@ export default function CaseStudy({ c, next }: { c: Case; next: { slug: string; 
             ))}
           </div>
         </Chapter>
+
+        {d?.evolution ? (
+          <Chapter id="evolution" n={nc()} title="How it evolved">
+            <Evolution title={d.evolution.title} note={d.evolution.note} stages={d.evolution.stages} />
+          </Chapter>
+        ) : null}
 
         {/* Gallery */}
         <section className="cs-gallery relative overflow-hidden py-16 md:flex md:h-[100svh] md:items-center md:py-0" aria-label="Screens">

@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { PROJECTS, type Project } from "@/lib/projects";
-import { wipeTo } from "./Transition";
+import { wipeTo } from "@/lib/wipe";
 
 /* Custom artwork per project, drawn from the product's own idea. Animates on hover. */
 function Artwork({ slug, accent }: { slug: string; accent: string }) {

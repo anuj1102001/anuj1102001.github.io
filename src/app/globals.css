@@ -65,6 +65,12 @@
 html {
   background: var(--bg);
 }
+/* Nothing decorative may widen the page (Safari counted the clipped background light). "clip"
+   keeps sticky sections working, unlike overflow: hidden. */
+html,
+body {
+  overflow-x: clip;
+}
 
 body {
   background: transparent;
@@ -416,5 +422,11 @@ body {
 @keyframes lc-flame {
   to {
     transform: scaleY(1.45) scaleX(0.85);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
 }

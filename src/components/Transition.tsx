@@ -9,11 +9,7 @@ import { gsap } from "gsap";
  * underneath it, and the panel lifts away to reveal the case study. Lives in the root layout so
  * it survives client-side navigation. Reduced motion: plain navigation.
  */
-export type WipeDetail = { href: string; rect?: DOMRect; color?: string; label?: string };
-
-export function wipeTo(detail: WipeDetail) {
-  dispatchEvent(new CustomEvent<WipeDetail>("page-wipe", { detail }));
-}
+import type { WipeDetail } from "@/lib/wipe";
 
 export default function Transition() {
   const panel = useRef<HTMLDivElement>(null);
@@ -46,7 +42,11 @@ export default function Transition() {
         });
     };
     addEventListener("page-wipe", onWipe);
-    return () => removeEventListener("page-wipe", onWipe);
+    (window as unknown as { __wipeReady?: boolean }).__wipeReady = true;
+    return () => {
+      removeEventListener("page-wipe", onWipe);
+      (window as unknown as { __wipeReady?: boolean }).__wipeReady = false;
+    };
   }, [router]);
 
   // When the new route has rendered, lift the panel away.

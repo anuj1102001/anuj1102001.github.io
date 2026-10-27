@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import type { ArchLane, Compare, FlowStep } from "@/content/depth";
+import type { ArchLane, Compare, FlowStep, Stage } from "@/content/depth";
 
 gsap.registerPlugin(useGSAP);
 
@@ -265,5 +265,104 @@ export function Walkthrough({ src, poster, title }: { src: string; poster?: stri
       <video ref={ref} src={src} poster={poster} controls preload="none" playsInline className="aspect-video w-full bg-ink-900 object-cover" style={{ borderRadius: "calc(var(--radius) - 8px)" }} />
       <figcaption className="px-2 pb-1 pt-3 text-[13px] text-ink-300">{title}</figcaption>
     </figure>
+  );
+}
+
+/* ---------------------------------------------------------------- evolution */
+
+
+/** Earlier versions of the product, in order: click a stage (or use the arrows) to step through. */
+export function Evolution({ title, note, stages }: { title: string; note: string; stages: Stage[] }) {
+  const [i, setI] = useState(0);
+  const touched = useRef(false);
+  const box = useRef<HTMLDivElement>(null);
+  const go = (n: number) => {
+    touched.current = true;
+    setI(Math.max(0, Math.min(stages.length - 1, n)));
+  };
+  // Plays forward once, on its own, the first time it scrolls into view; any click takes over.
+  useEffect(() => {
+    if (!box.current || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let timer = 0;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting || timer) return;
+        io.disconnect();
+        timer = window.setInterval(() => {
+          if (touched.current) return clearInterval(timer);
+          setI((k) => {
+            if (k >= stages.length - 1) {
+              clearInterval(timer);
+              return k;
+            }
+            return k + 1;
+          });
+        }, 2600);
+      },
+      { threshold: 0.5 },
+    );
+    io.observe(box.current);
+    return () => {
+      io.disconnect();
+      clearInterval(timer);
+    };
+  }, [stages.length]);
+  const s = stages[i];
+  return (
+    <div
+      ref={box}
+      onKeyDown={(e) => {
+        if (e.key === "ArrowRight") go(i + 1);
+        if (e.key === "ArrowLeft") go(i - 1);
+      }}
+    >
+      <h3 className="display text-[clamp(24px,2.4vw,34px)] font-semibold tracking-[-0.03em]">{title}</h3>
+      <p className="mt-2 text-[14px] text-ink-500">{note}</p>
+      {/* the timeline */}
+      <div className="relative mt-8" role="tablist" aria-label="Versions">
+        <span aria-hidden className="absolute left-0 right-0 top-[11px] h-px bg-[var(--line)]" />
+        <span aria-hidden className="absolute left-0 top-[11px] h-px bg-gradient-to-r from-ember-600 to-ember-300 transition-[width] duration-700 ease-[var(--ease-out-expo)]" style={{ width: stages.length > 1 ? `${(i / (stages.length - 1)) * 100}%` : "100%" }} />
+        <div className="relative flex justify-between gap-2">
+          {stages.map((st, k) => (
+            <button key={st.label} role="tab" aria-selected={k === i} onClick={() => go(k)} className="group flex min-w-0 flex-1 flex-col items-center text-center first:items-start first:text-left last:items-end last:text-right">
+              <span className={`grid h-6 w-6 place-items-center rounded-full border-2 text-[10px] transition-all duration-500 [:root[data-mode=pixel]_&]:rounded-none ${k <= i ? "border-ember-400 bg-ember-500 text-ink-950" : "border-ink-500 bg-ink-950 text-ink-400 group-hover:border-paper"}`}>{k + 1}</span>
+              <span className={`mono mt-2 hidden text-[10px] uppercase tracking-[0.12em] sm:block ${k === i ? "text-paper" : "text-ink-500 group-hover:text-ink-300"}`}>{st.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      {/* the screen */}
+      <div className="glass relative mt-6 overflow-hidden p-2">
+        <div className="relative aspect-[16/10] overflow-hidden bg-ink-900" style={{ borderRadius: "calc(var(--radius) - 8px)" }}>
+          {stages.map((st, k) => (
+            <img
+              key={st.img}
+              src={`${st.img}-1600.webp`}
+              srcSet={`${st.img}-800.webp 800w, ${st.img}-1600.webp 1600w`}
+              sizes="(min-width: 1024px) 900px, 100vw"
+              alt={`${st.label}: ${st.d}`}
+              loading="lazy"
+              className={`absolute inset-0 h-full w-full transition-all duration-700 ease-[var(--ease-out-expo)] ${st.fit === "contain" ? "object-contain" : "object-cover object-top"} ${k === i ? "scale-100 opacity-100" : k < i ? "scale-[0.97] opacity-0" : "scale-[1.03] opacity-0"}`}
+            />
+          ))}
+          <span className="mono absolute left-3 top-3 rounded-full bg-black/65 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-paper backdrop-blur [:root[data-mode=pixel]_&]:rounded-none">
+            {i + 1} / {stages.length} · {s.label}
+          </span>
+        </div>
+        <div className="flex items-start justify-between gap-4 px-2 pb-1 pt-4">
+          <p className="max-w-[720px] text-[15px] leading-relaxed text-ink-300" aria-live="polite">
+            {s.d}
+          </p>
+          <div className="flex shrink-0 gap-1.5">
+            <button onClick={() => go(i - 1)} disabled={i === 0} aria-label="Earlier version" className="grid h-9 w-9 place-items-center rounded-full border border-[var(--line)] text-ink-300 transition hover:border-ember-500 hover:text-paper disabled:opacity-30 [:root[data-mode=pixel]_&]:rounded-none">
+              ←
+            </button>
+            <button onClick={() => go(i + 1)} disabled={i === stages.length - 1} aria-label="Later version" className="grid h-9 w-9 place-items-center rounded-full border border-[var(--line)] text-ink-300 transition hover:border-ember-500 hover:text-paper disabled:opacity-30 [:root[data-mode=pixel]_&]:rounded-none">
+              →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

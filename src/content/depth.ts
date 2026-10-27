@@ -14,7 +14,10 @@ export type Compare =
   | { kind: "slider"; title: string; before: { img: string; label: string }; after: { img: string; label: string }; note: string }
   | { kind: "list"; title: string; before: string; after: string; rows: { a: string; b: string }[] };
 
+export type Stage = { label: string; img: string; d: string; fit?: "cover" | "contain" };
+
 export type Depth = {
+  evolution?: { title: string; note: string; stages: Stage[] };
   research: { status: string; items: string[] };
   flow?: { title: string; steps: FlowStep[] };
   arch?: { title: string; lanes: ArchLane[]; principles: string[] };
@@ -28,6 +31,15 @@ export type Depth = {
 
 export const DEPTH: Record<string, Depth> = {
   shortlist: {
+    evolution: {
+      title: "Three looks before it felt like its own product",
+      note: "Real screens from the project's history, in order. Every stage was live.",
+      stages: [
+        { label: "First interface", img: W("shortlist/evo-1"), d: "The rebuilt product's first screens: an editorial serif look, with the match report beside the resume. It worked, but it looked almost identical to Margin." },
+        { label: "Its own identity", img: W("shortlist/evo-2"), d: "So Shortlist got its own system: a violet accent, pill controls, a coverage ring, and a match page that leads with the checklist." },
+        { label: "A product, not a page", img: W("shortlist/evo-3"), d: "Then a marketing site and a sidebar workspace with an overview, on cool neutrals and an electric cobalt accent, so it can never be mistaken for Margin's warm paper." },
+      ],
+    },
     research: {
       status: "Desk research and my own v1 audit. No usability testing yet; a study plan is written in the case study.",
       items: [
@@ -200,6 +212,17 @@ export const DEPTH: Record<string, Depth> = {
   },
 
   fitflow: {
+    evolution: {
+      title: "From a template to one clear job",
+      note: "Real screens from the project's history, in order.",
+      stages: [
+        { label: "v1 landing", img: W("fitflow/evo-1"), d: "The first prototype sold everything at once (storefronts, offers, a CRM) on a dark look that read like an AI-made template." },
+        { label: "v1 home", img: W("fitflow/evo-2"), d: "Its home screen was a metrics dashboard: useful numbers, but nothing that told a creator what to do next." },
+        { label: "De-templated", img: W("fitflow/evo-3"), d: "Rebuilt from a Figma design system: a warm light theme with a dark mode, one lime accent, and GSAP choreography." },
+        { label: "v2: one job", img: W("fitflow/evo-4"), d: "Refocused on follow-up and retention. The storefront builder was cut and the promise became “Every lead followed up. Every client kept.”" },
+        { label: "v2 home: Today", img: W("fitflow/evo-5"), d: "The dashboard became a ranked queue of who to message and why, each with one action." },
+      ],
+    },
     research: {
       status: "Design hypotheses only: no interviews or usability tests yet. The problem statements and persona are labelled as hypotheses.",
       items: ["Target user and problem framed from how creators sell coaching through DMs, WhatsApp and spreadsheets", "Scope decisions written down: what FITFLOW should not do (payments, real data, sending messages)"],
@@ -242,6 +265,14 @@ export const DEPTH: Record<string, Depth> = {
   },
 
   "creators-store": {
+    evolution: {
+      title: "Finding the one thing that's different",
+      note: "Real screens from the project's history, in order.",
+      stages: [
+        { label: "Broad promise", img: W("creators/evo-1"), d: "The first landing led with “Turn your audience into a business” and an illustration: true, but it sounded like every creator tool." },
+        { label: "Keep every rupee", img: W("creators/evo-2"), d: "Refocused on what no competitor offers: buyers pay the creator's own Razorpay and the platform takes 0%. The hero now shows the money's path to the creator's bank. Later the copy widened from coaches to creators in every niche." },
+      ],
+    },
     research: {
       status: "Desk research on how creators sell today and what creator platforms charge. Early stage: no paying customers yet, so no outcome data.",
       items: ["Compared commission and payout models of creator-commerce tools", "Mapped the DM-and-screenshot selling flow the product replaces"],
@@ -287,12 +318,33 @@ export const DEPTH: Record<string, Depth> = {
   },
 
   comet: {
+    evolution: {
+      title: "From boards to a launch",
+      note: "The approved boards were made with AI image tools under my art direction; the site and the story are built from them.",
+      stages: [
+        { label: "Board: the shoe", img: W("comet/evo-1"), d: "The approved board for the silhouette and details.", fit: "contain" },
+        { label: "Board: editions", img: W("comet/evo-2"), d: "Three editions on one silhouette, each from daily Mumbai rather than postcard sights.", fit: "contain" },
+        { label: "Board: packaging", img: W("comet/evo-3"), d: "Poster-box packaging carried from the same lettering and palette.", fit: "contain" },
+        { label: "The launch", img: W("comet/local-lateral-hero"), d: "A 10-chapter scroll-driven launch site. A real-time WebGL shoe was built first and dropped, because it looked worse than the approved renders." },
+      ],
+    },
     research: { status: "Desk research, labelled as such: every statement in the case study is marked desk research, hypothesis, proposal or built.", items: [] },
     explorations: [{ t: "Real-time 3D, dropped", d: "A parametric WebGL shoe was built and then replaced by the approved renders, labelled as renders, because it looked worse." }],
     embed: { src: "https://comet-mumbai.vercel.app", title: "COMET 2.0 launch site, live", note: "The scroll-driven launch site, running here.", ratio: "16/10" },
   },
 
   solune: {
+    evolution: {
+      title: "Four concepts, two rejected",
+      note: "Screens from each version in the project's history. The boards were made with AI image tools under my art direction.",
+      stages: [
+        { label: "Brand boards", img: W("solune/evo-0"), d: "The source of every fact on the site: the bottles, labels, palettes and lines on the boards.", fit: "contain" },
+        { label: "v1: scroll site", img: W("solune/evo-1"), d: "A long scroll with real-time 3D bottles. Reviewed as too basic." },
+        { label: "v2: the book", img: W("solune/evo-2"), d: "An interactive book bound back to back, one brand from each cover. Rejected after review." },
+        { label: "v3: the horizon", img: W("solune/evo-3"), d: "Drag day into night along a horizon, then build a serve in a 3D pour bar. Replaced by the liquid opening." },
+        { label: "v4: liquid", img: W("solune/hero-new"), d: "A liquid-coffee sculpture you can stir, folding into an editorial publication, with path-traced bottles." },
+      ],
+    },
     research: { status: "A design exercise; facts on the site come only from the brand boards.", items: [] },
     compare: [
       {

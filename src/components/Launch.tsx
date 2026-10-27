@@ -94,6 +94,9 @@ export default function Launch() {
       }, 0.86)
       .to(s, { opacity: 0, duration: 0.45, ease: "power2.out" }, 1.15)
       .add(() => setFlight(null));
+    // Safari only allows a new tab within about a second of the click, so it gets a quicker flight.
+    const ua = navigator.userAgent;
+    if (/Safari\//.test(ua) && !/Chrome|Chromium|CriOS|Edg|Firefox|FxiOS/.test(ua)) tl.timeScale(1.4);
     // Dev only: lets the screenshot script slow the flight down to inspect it.
     if (process.env.NODE_ENV !== "production") (window as unknown as { __lcTl?: gsap.core.Timeline }).__lcTl = tl;
     return () => {

@@ -145,7 +145,7 @@ export default function Hero() {
             0.15 + i * 0.03,
           );
         });
-        tl.from(q(".h-caption"), { opacity: 0, y: 30, duration: 0.3 }, 0.7);
+        tl.fromTo(q(".h-caption"), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3 }, 0.7);
       });
 
       return () => {
@@ -246,7 +246,7 @@ export default function Hero() {
           </span>
         </a>
       ))}
-      <div className="h-caption pointer-events-none absolute inset-x-0 bottom-[7%] text-center">
+      <div className="h-caption pointer-events-none absolute inset-x-0 bottom-[7%] text-center opacity-0">
         <p className="mono text-[11px] uppercase tracking-[0.2em] text-ink-400">Selected work · 2025–26</p>
         <p className="display mt-2 text-[clamp(28px,4vw,56px)] font-semibold tracking-[-0.04em]">Six products, one habit: show the evidence.</p>
       </div>
